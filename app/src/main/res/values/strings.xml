@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">MVPGraph</string>
+    <string name="create_vertex_button_text">Create Vertex</string>
+
+</resources>
