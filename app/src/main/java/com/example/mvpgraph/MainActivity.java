@@ -1,44 +1,45 @@
-package com.example.mvpgraph;
+package com.example.graphapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+public class MainActivity extends AppCompatActivity implements MVP_Graph_Contract.View, AdapterView.OnItemSelectedListener {
 
-public class MainActivity extends AppCompatActivity implements MVP_Graph_Contract.View {
-
-    MVP_Graph_Contract.Presenter presenter;
-    int numberOfVertices = 0;
-    TextView textViewNumberOfVertices;
-
+    private DrawingView drawingView;
+    private GraphPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        presenter = new GraphPresenter(this,new Graph());
-        EditText editTextV0 = findViewById(R.id.editTextV0);
-        Button buttonCreateVertex = findViewById(R.id.buttonCreateVertex);
-        textViewNumberOfVertices = findViewById(R.id.textViewNumberOfVertices);
 
-        buttonCreateVertex.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String enteredText = editTextV0.getText().toString();
-                Vertex vertex = new Vertex(enteredText);
-                presenter.getGraph().addVertex(vertex);
-                numberOfVertices++;
-                updateNumberOfVerticesTextView();
-            }
-        });
+        Spinner spinner = findViewById(R.id.spinner);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.graphMode_choices, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(this);
+
+        drawingView = findViewById(R.id.drawingView);
+
+        presenter = new GraphPresenter(drawingView, new Graph());
+        drawingView.setPresenter(presenter,spinner);
     }
-    @SuppressLint("SetTextI18n")
-    private void updateNumberOfVerticesTextView() {
-        textViewNumberOfVertices.setText("Number of Vertices: " + numberOfVertices);
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }
