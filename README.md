@@ -38,3 +38,6 @@ This project was developed as a school assignment and is coded entirely in Java 
 2. Use the spinner at the top to select an action (Add Vertex, Add Edge, DFS, BFS).
 3. Interact with the graph as per your selection.
 
+## Demo
+
+![App Demo](GraphDemo.gif)
